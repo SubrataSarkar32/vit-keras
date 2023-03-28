@@ -65,6 +65,7 @@ def build_model(
     image_size: ImageSizeArg,
     patch_size: int,
     num_layers: int,
+    stride_size: int;
     hidden_size: int,
     num_heads: int,
     name: str,
@@ -84,6 +85,7 @@ def build_model(
             into, only to be specified if `include_top` is True, and
             if no `weights` argument is specified.
         num_layers: The number of transformer layers to use.
+        stride_size: The stride size to be used by the CNN layer filters
         hidden_size: The number of filters to use
         num_heads: The number of transformer heads
         mlp_dim: The number of dimensions for the MLP output in the transformers.
@@ -102,7 +104,7 @@ def build_model(
     y = tf.keras.layers.Conv2D(
         filters=hidden_size,
         kernel_size=patch_size,
-        strides=patch_size,
+        strides=stride_size,
         padding="valid",
         name="embedding",
     )(x)
@@ -171,12 +173,15 @@ def vit_b16(
     image_size: ImageSizeArg = (224, 224),
     classes=1000,
     activation="linear",
+    stride_size= 0,
     include_top=True,
     pretrained=True,
     pretrained_top=True,
     weights="imagenet21k+imagenet2012",
 ):
     """Build ViT-B16. All arguments passed to build_model."""
+    if stride_size == 0:
+        stride_size=16
     if pretrained_top:
         classes = validate_pretrained_top(
             include_top=include_top,
@@ -190,6 +195,7 @@ def vit_b16(
         patch_size=16,
         image_size=image_size,
         classes=classes,
+        stride_size=stride_size,
         activation=activation,
         include_top=include_top,
         representation_size=768 if weights == "imagenet21k" else None,
@@ -211,12 +217,15 @@ def vit_b32(
     image_size: ImageSizeArg = (224, 224),
     classes=1000,
     activation="linear",
+    stride_size = 0,
     include_top=True,
     pretrained=True,
     pretrained_top=True,
     weights="imagenet21k+imagenet2012",
 ):
     """Build ViT-B32. All arguments passed to build_model."""
+    if stride_size == 0:
+        stride_size = 32
     if pretrained_top:
         classes = validate_pretrained_top(
             include_top=include_top,
@@ -230,6 +239,7 @@ def vit_b32(
         patch_size=32,
         image_size=image_size,
         classes=classes,
+        stride_size=stride_size,
         activation=activation,
         include_top=include_top,
         representation_size=768 if weights == "imagenet21k" else None,
@@ -250,12 +260,15 @@ def vit_l16(
     image_size: ImageSizeArg = (384, 384),
     classes=1000,
     activation="linear",
+    stride_size = 0,
     include_top=True,
     pretrained=True,
     pretrained_top=True,
     weights="imagenet21k+imagenet2012",
 ):
     """Build ViT-L16. All arguments passed to build_model."""
+    if stride_size == 0:
+        stride_size = 16
     if pretrained_top:
         classes = validate_pretrained_top(
             include_top=include_top,
@@ -269,6 +282,7 @@ def vit_l16(
         name="vit-l16",
         image_size=image_size,
         classes=classes,
+        stride_size=stride_size,
         activation=activation,
         include_top=include_top,
         representation_size=1024 if weights == "imagenet21k" else None,
@@ -290,11 +304,14 @@ def vit_l32(
     classes=1000,
     activation="linear",
     include_top=True,
+    stride_size = 0,
     pretrained=True,
     pretrained_top=True,
     weights="imagenet21k+imagenet2012",
 ):
     """Build ViT-L32. All arguments passed to build_model."""
+    if stride_size == 0:
+        stride_size = 32
     if pretrained_top:
         classes = validate_pretrained_top(
             include_top=include_top,
@@ -308,6 +325,7 @@ def vit_l32(
         name="vit-l32",
         image_size=image_size,
         classes=classes,
+        stride_size=stride_size,
         activation=activation,
         include_top=include_top,
         representation_size=1024 if weights == "imagenet21k" else None,
