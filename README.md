@@ -1,11 +1,14 @@
 # vit-keras
+
+The main change in this fork is you can specify the stride for the cnn layer. This helps you in applying convolution by overlapping.
+
 This is a Keras implementation of the models described in [An Image is Worth 16x16 Words:
 Transformes For Image Recognition at Scale](https://arxiv.org/pdf/2010.11929.pdf). It is based on an earlier implementation from [tuvovan](https://github.com/tuvovan/Vision_Transformer_Keras), modified to match the Flax implementation in the [official repository](https://github.com/google-research/vision_transformer).
 
 The weights here are ported over from the weights provided in the official repository. See `utils.load_weights_numpy` to see how this is done (it's not pretty, but it does the job).
 
 ## Usage
-Install this package using `pip install vit-keras`
+Install this package using `pip install git+https://github.com/SubrataSarkar32/vit-keras.git`
 
 You can use the model out-of-the-box with ImageNet 2012 classes using
 something like the following. The weights will be downloaded automatically.
